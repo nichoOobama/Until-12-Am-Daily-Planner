@@ -52,19 +52,19 @@
   <!-- Stats -->
   <div class="stats-row">
     <div class="stat-card amber">
-      <div class="stat-label">Task Besok</div>
+      <div class="stat-label">Task Tomorrow</div>
       <div class="stat-value" id="statTasks">0</div>
-      <div class="stat-sub">direncanakan</div>
+      <div class="stat-sub">Planned</div>
     </div>
     <div class="stat-card teal">
-      <div class="stat-label">Selesai Hari Ini</div>
+      <div class="stat-label">Finished today</div>
       <div class="stat-value" id="statDone">0</div>
-      <div class="stat-sub">dari <span id="statTotal">0</span> task</div>
+      <div class="stat-sub">than <span id="statTotal">0</span> task</div>
     </div>
     <div class="stat-card rose">
-      <div class="stat-label">Rutinitas</div>
+      <div class="stat-label">Routines</div>
       <div class="stat-value" id="statRoutines">0</div>
-      <div class="stat-sub">dibangun</div>
+      <div class="stat-sub">built <span>0</span> than <span>0</span> Routines</div>
     </div>
   </div>
 
@@ -138,14 +138,13 @@
         <thead>
             <tr>
             <th data-col="name">Name</th>
-            <th data-col="type">Type</th>
-            <th data-col="status">Status</th>
+            <th data-col="type" class="type-col">Type</th>
             <th data-col="time" class="time-col">Time Target</th>
-            <th data-col="note" class="note-col">More</th>
+            <th data-col="status">Status</th>
+            <th data-col="note" class="more-col">More</th>
             </tr>
         </thead>
         <tbody id="tblBody">
-            <tr><td colspan="6" class="tbl-empty">Belum ada data. Mulai tambahkan task, rutinitas, atau catatan!</td></tr>
         </tbody>
         </table>
       </div>

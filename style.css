@@ -738,4 +738,7 @@
     main { padding: 20px 14px 48px; }
     header { padding: 0 14px; }
     .modal { max-width: 100%; }
+    .td { display: none; }
+    .type-col { display: none; }
+    .time-col { display: none; }
   }

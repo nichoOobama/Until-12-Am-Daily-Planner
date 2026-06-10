@@ -16,12 +16,6 @@ const date = today.toLocaleDateString('en-US', Formating);
 //  greeting
 const greetingText = document.getElementById('greetingText');
 
-// stats
-const statTasks = document.getElementById('statTasks');
-const statDone = document.getElementById('statDone');
-const statTotal = document.getElementById('statTotal');
-const statRoutines = document.getElementById('statRoutines');
-
 // tasks
 const btnAddTask = document.getElementById('btnAddTask');
 const taskList = document.getElementById('taskList');
@@ -42,8 +36,6 @@ const tblSearch = document.getElementById('tblSearch');
 const dataTable = document.getElementById('dataTable');
 const tblBody = document.getElementById('tblBody');
 const tableSection = document.querySelector('.table-section');
-const colTime = document.querySelector('.time-col');
-const colNote = document.querySelector('.note-col');
 
 // modal : add task
 const modalTask = document.getElementById('modalTask');
@@ -178,10 +170,22 @@ startRealTimeClock();
 greeting();
 
 // stats
+const statTasks = document.getElementById('statTasks');
+const statDone = document.getElementById('statDone');
+const statTotal = document.getElementById('statTotal');
+const statRoutines = document.getElementById('statRoutines');
+
+statTasks.textContent = filterTask().length;
+statRoutines.textContent = filterRoutine().length;
 
 // column tasks | modal
-const dataTask = localStorage.getItem(storage_key);
-if (dataTask) {
+function filterTask() {
+    const dataTask = localStorage.getItem(storage_key);
+    const arrayTask = dataTask ? JSON.parse(dataTask) : [];
+    const filterTask = arrayTask.filter(item => item.type === "task");
+    return filterTask;
+}
+if (filterTask().length > 0) {
     TasklistIsEmpty.remove();
 }
 
@@ -202,11 +206,15 @@ formTask.addEventListener('submit', (ev) => {
 });
 
 // column routines | modal
-const dataRoutine = localStorage.getItem(storage_key);
-if (dataRoutine) {
-    routineListIsEmpty.remove()
+function filterRoutine() {
+    const dataRoutine = localStorage.getItem(storage_key);
+    const arrayRoutine = dataRoutine ? JSON.parse(dataRoutine) : [];
+    const filterRoutine = arrayRoutine.filter(item => item.type === "routine");
+    return filterRoutine;
 }
-
+if (filterRoutine().length > 0) {
+    routineListIsEmpty.remove();
+}
 btnAddRoutine.onclick = () => {
     modalOverlayRoutine.style.display = "flex";
 }
@@ -226,14 +234,26 @@ formRoutine.addEventListener('submit', (ev) => {
 // TABLE
 
 // identify screen size for responsive design table and loop data
-function identifyScreenSize() {
-    const widthScreen = window.innerWidth;
-    return widthScreen;
+
+const data = localStorage.getItem(storage_key);
+
+if (data === null) {
+    tblBody.innerHTML += `
+    <tr><td colspan="6" class="tbl-empty">Belum ada data. Mulai tambahkan task, rutinitas, atau catatan!</td></tr>
+    `
+} else {
+    const arrayData = JSON.parse(data);
+    const dataTerbaru = arrayData.slice(-5);
+    dataTerbaru.forEach(item => {
+        tblBody.innerHTML += `
+        <tr>
+            <td>${item.name}</td>
+            <td class="td">${item.type}</td>
+            <td class="td">${item.time_planed}</td>
+            <td>${item.done}</td>
+            <td><button class="btn-more">More</button></td>
+        </tr>
+        `
+    });
 }
-window.addEventListener('resize', () => {
-        if (identifyScreenSize() < 720) {
-            tableSection.style.display = "none";
-        } else {
-            tableSection.style.display = "block";
-        }
-});
+
