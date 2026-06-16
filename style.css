@@ -81,61 +81,6 @@
     border: 1px solid var(--border);
   }
 
-  /* Bell / Notif */
-  .notif-btn {
-    width: 40px; height: 40px;
-    border-radius: 50%;
-    border: 1px solid var(--border);
-    background: var(--paper-card);
-    cursor: pointer;
-    display: flex; align-items: center; justify-content: center;
-    position: relative;
-    transition: all 0.2s;
-    color: var(--ink-soft);
-  }
-  .notif-btn:hover { background: var(--paper-warm); border-color: var(--amber); color: var(--amber); }
-  .notif-btn svg { width: 18px; height: 18px; }
-  .notif-badge {
-    position: absolute;
-    top: 7px; right: 8px;
-    width: 8px; height: 8px;
-    border-radius: 50%;
-    background: var(--rose);
-    border: 2px solid white;
-    display: none;
-  }
-  .notif-badge.visible { display: block; }
-
-  /* Notif dropdown */
-  .notif-panel {
-    position: absolute;
-    top: 56px; right: 16px;
-    width: 320px;
-    background: var(--paper-card);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    box-shadow: var(--shadow-hover);
-    display: none;
-    z-index: 200;
-    overflow: hidden;
-  }
-  .notif-panel.open { display: block; animation: slideDown 0.18s ease; }
-  @keyframes slideDown { from { opacity:0; transform: translateY(-8px); } to { opacity:1; transform: translateY(0); } }
-  .notif-header { padding: 14px 16px 10px; border-bottom: 1px solid var(--border-soft); display: flex; align-items: center; justify-content: space-between; }
-  .notif-header span { font-size: 13px; font-weight: 500; }
-  .notif-clear { font-size: 12px; color: var(--amber); cursor: pointer; background: none; border: none; }
-  .notif-list { max-height: 260px; overflow-y: auto; }
-  .notif-item { padding: 12px 16px; border-bottom: 1px solid var(--border-soft); display: flex; gap: 10px; cursor: default; }
-  .notif-item:last-child { border-bottom: none; }
-  .notif-item:hover { background: var(--amber-pale); }
-  .notif-icon { width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-size: 14px; }
-  .notif-icon.task { background: var(--teal-light); }
-  .notif-icon.note { background: var(--amber-light); }
-  .notif-icon.warn { background: var(--rose-light); }
-  .notif-text p { font-size: 13px; color: var(--ink); line-height: 1.4; }
-  .notif-text span { font-size: 11px; color: var(--ink-mute); }
-  .notif-empty { padding: 32px 16px; text-align: center; font-size: 13px; color: var(--ink-mute); }
-
   /* ── LAYOUT ── */
   main {
     max-width: 1100px;
@@ -418,16 +363,15 @@
   padding: 5px 12px;
   border-radius: 20px;
   border: 1px solid var(--border);
-  background: none;
-  color: var(--ink-soft);
+  background: var(--amber); border-color: var(--amber);
+  color: white;
   cursor: pointer;
   transition: all 0.15s;
   font-family: 'DM Sans', sans-serif;
   white-space: nowrap;       /* ✅ teks tombol tidak terpotong */
   touch-action: manipulation;/* ✅ tap lebih responsif di mobile */
 }
-.tbl-filter-btn:hover { border-color: var(--amber); color: var(--amber); }
-.tbl-filter-btn.active { background: var(--amber); border-color: var(--amber); color: white; }
+.tbl-filter-btn:hover { background-color: var(--amber-light); color: #1a1814; }
 
 /* ─── Table Wrapper ─── */
 .tbl-wrap {
@@ -514,6 +458,128 @@
 .td-time { color: var(--ink-soft); white-space: nowrap; }
 .td-type { white-space: nowrap; }
 
+/* ========================================== */
+/* ── TABLE CARD (TRUE & FALSE) ── */
+/* ========================================== */
+.table-card-true, 
+.table-card-false {
+  background: var(--paper-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  padding: 1rem;
+  width: 85%;
+}
+
+.table-head-true, 
+.table-head-false {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  flex-wrap: wrap;           /* ✅ wrap ke baris baru di layar kecil */
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.table-title-true, 
+.table-title-false {
+  font-family: 'Lora', serif;
+  font-size: clamp(14px, 2vw, 17px);  /* ✅ fluid font size */
+  font-weight: 600;
+  color: var(--ink);
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;           /* ✅ subtitle bisa turun ke baris baru */
+  gap: 6px;
+}
+
+/* ─── Table Wrapper ─── */
+.tbl-wrap-true, 
+.tbl-wrap-false {
+  background: var(--paper-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;          /* tetap hidden untuk sudut bulat */
+}
+
+/* ========================================== */
+/* ── DATA TABLE SYSTEM ── */
+/* ========================================== */
+.data-table-true, 
+.data-table-false {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: clamp(12px, 1.5vw, 13px); /* ✅ fluid font */
+}
+
+.data-table-true thead tr, 
+.data-table-false thead tr {
+  background: var(--paper-warm);
+  border-bottom: 1px solid var(--border);
+}
+
+.data-table-true thead th, 
+.data-table-false thead th {
+  padding: 10px 14px;        /* ✅ padding lebih compact */
+  text-align: left;
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--ink-soft);
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  white-space: nowrap;
+  cursor: pointer;
+  user-select: none;
+  transition: color 0.15s;
+}
+
+/* ─── Hover & Sort States (Dipisah agar mudah diredesign) ─── */
+.data-table-true thead th:hover, .data-table-true thead th.sorted { color: var(--amber); }
+.data-table-false thead th:hover, .data-table-false thead th.sorted { color: var(--amber); } /* 💡 Bisa diganti warna lain jika ingin beda */
+
+.sort-arrow { display: inline-block; margin-left: 4px; opacity: 0.5; font-size: 10px; }
+.sorted .sort-arrow { opacity: 1; }
+
+/* ========================================== */
+/* ── TABLE BODY & ROWS ── */
+/* ========================================== */
+.data-table-true tbody tr, 
+.data-table-false tbody tr {
+  border-bottom: 1px solid var(--border-soft);
+  transition: background 0.12s;
+  cursor: default;
+}
+
+.data-table-true tbody tr:last-child, 
+.data-table-false tbody tr:last-child { 
+  border-bottom: none; 
+}
+
+/* Hover Row (Dipisah agar warna background hover bisa dibedakan nanti) */
+.data-table-true tbody tr:hover { background: var(--amber-pale); }
+.data-table-false tbody tr:hover { background: var(--amber-pale); } /* 💡 Bisa diganti misal: var(--red-pale) */
+
+.data-table-true td, 
+.data-table-false td {
+  padding: 10px 14px;        /* ✅ padding compact, konsisten dgn th */
+  color: var(--ink);
+  vertical-align: middle;
+}
+
+/* ─── Column Utilities (Berlaku global di kedua tabel) ─── */
+.td-name {
+  font-weight: 500;
+  max-width: 200px;          /* ✅ dikecilkan agar tidak terlalu lebar di mobile */
+}
+.td-name-text {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: block;
+}
+.td-time { color: var(--ink-soft); white-space: nowrap; }
+.td-type { white-space: nowrap; }
+
 /* ─── Status Pills ─── */
 .status-pill {
   display: inline-flex;
@@ -533,6 +599,12 @@
 .status-pill.note-challenge   { background: var(--rose-light); color: var(--rose); }
 .status-pill.note-reflection  { background: var(--amber-light); color: var(--amber); }
 .status-pill.note-general     { background: var(--paper-warm); color: var(--ink-soft); border: 1px solid var(--border); }
+.btn-more p {padding: 0.5rem;}
+.btn-more { align-items: center; justify-content: center; border-radius: 10%; background-color: var(--rose); }
+.btn-more:hover{cursor: pointer; background-color: var(--rose-light);}
+.btn-done p {padding: 0.5rem;}
+.btn-done {align-items: center; justify-content: center;border-radius: 10%;background-color: var(--teal);}
+.btn-done:hover{cursor: pointer; background-color: var(--teal-light);}
 
 /* ─── Empty State ─── */
 .tbl-empty {
@@ -581,12 +653,21 @@
     padding: 16px;
   }
 
-  .modal-overlay {
+  .modal-overlay-table-true {
     position: fixed; inset: 0;
     background: rgba(26,24,20,0.45);
     z-index: 300;
     display: none;
-    align-items: center;
+    align-items: stretch;
+    justify-content: center;
+    padding: 16px; 
+  }
+  .modal-overlay-table-false {
+    position: fixed; inset: 0;
+    background: rgba(26,24,20,0.45);
+    z-index: 300;
+    display: none;
+    align-items: stretch;
     justify-content: center;
     padding: 16px;
   }
@@ -635,8 +716,35 @@
     line-height: 1;
     transition: all 0.15s;
   }
+  .modal-close-table-true {
+    width: 30px; height: 30px;
+    border-radius: 50%;
+    border: 1px solid var(--border);
+    background: none;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    color: var(--ink-soft);
+    font-size: 16px;
+    line-height: 1;
+    transition: all 0.15s;
+  }
+  .modal-close-table-false {
+    width: 30px; height: 30px;
+    border-radius: 50%;
+    border: 1px solid var(--border);
+    background: none;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    color: var(--ink-soft);
+    font-size: 16px;
+    line-height: 1;
+    transition: all 0.15s;
+  }
+  
   .modal-close-task:hover { background: var(--paper-warm); border-color: var(--rose); color: var(--rose); }
   .modal-close-routine:hover { background: var(--paper-warm); border-color: var(--rose); color: var(--rose); }
+  .modal-close-table-true:hover { background: var(--paper-warm); border-color: var(--rose); color: var(--rose); }
+  .modal-close-table-false:hover { background: var(--paper-warm); border-color: var(--rose); color: var(--rose); }
 
   .modal-body { padding: 18px 22px; display: flex; flex-direction: column; gap: 14px; }
 

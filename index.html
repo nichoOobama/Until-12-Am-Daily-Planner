@@ -19,26 +19,6 @@
   </div>
   <div class="header-right">
     <span class="date-chip" id="dateChip"></span>
-    <div style="position:relative">
-      <button class="notif-btn" id="notifBtn" aria-label="Notifikasi">
-        <!-- Bell icon -->
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
-          <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
-        </svg>
-        <span class="notif-badge" id="notifBadge"></span>
-      </button>
-      <!-- Notif Panel -->
-      <div class="notif-panel" id="notifPanel">
-        <div class="notif-header">
-          <span>Notifikasi</span>
-          <button class="notif-clear" id="notifClear">Hapus semua</button>
-        </div>
-        <div class="notif-list" id="notifList">
-          <div class="notif-empty">Belum ada notifikasi</div>
-        </div>
-      </div>
-    </div>
   </div>
 </header>
 
@@ -52,7 +32,7 @@
   <!-- Stats -->
   <div class="stats-row">
     <div class="stat-card amber">
-      <div class="stat-label">Task Tomorrow</div>
+      <div class="stat-label">Tasks</div>
       <div class="stat-value" id="statTasks">0</div>
       <div class="stat-sub">Planned</div>
     </div>
@@ -118,10 +98,7 @@
         Today's Overview
       </div>
       <div class="tbl-filters">
-        <button class="tbl-filter-btn active" data-filter="all">Semua</button>
-        <button class="tbl-filter-btn" data-filter="task">Task</button>
-        <button class="tbl-filter-btn" data-filter="routine">Rutinitas</button>
-        <button class="tbl-filter-btn" data-filter="note">Catatan</button>
+        <button class="tbl-filter-btn" id="btnFilterAllOverview" data-filter="all">See all</button>
       </div>
     </div>
 
@@ -140,11 +117,46 @@
             <th data-col="name">Name</th>
             <th data-col="type" class="type-col">Type</th>
             <th data-col="time" class="time-col">Time Target</th>
-            <th data-col="status">Status</th>
+            <th data-col="status">Done</th>
             <th data-col="note" class="more-col">More</th>
             </tr>
         </thead>
         <tbody id="tblBody">
+        </tbody>
+        </table>
+      </div>
+  </div>
+
+  <div class="table-section">
+    <div class="table-section-head">
+      <div class="table-section-title">
+        Today's Done
+      </div>
+      <div class="tbl-filters">
+        <button class="tbl-filter-btn" id="btnFilterAllDone" data-filter="all">See all</button>
+      </div>
+    </div>
+
+    <div class="tbl-wrap">
+      <!-- Search -->
+      <div class="tbl-search-row">
+        <svg class="tbl-search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" width="16" height="16"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <input class="tbl-search-input" id="tblSearch" placeholder="Cari nama, catatan, status…" />
+      </div>
+
+    <!-- Table -->
+      <div style="overflow-x:auto">
+            <table class="data-table" id="dataTable">
+        <thead>
+            <tr>
+            <th data-col="name">Name</th>
+            <th data-col="type" class="type-col">Type</th>
+            <th data-col="time" class="time-col">Time Target</th>
+            <th data-col="status">Done</th>
+            <th data-col="note" class="more-col">More</th>
+            </tr>
+        </thead>
+        <tbody id="tblBodyDone">
         </tbody>
         </table>
       </div>
@@ -209,87 +221,67 @@
   </div>
 </div>
 
-<!-- ── MODAL: ADD NOTE ── -->
-<div class="modal-overlay" id="modalNote">
-  <div class="modal">
-    <div class="modal-head">
-      <h3>Tulis Catatan</h3>
-      <button class="modal-close" data-close="modalNote">×</button>
-    </div>
-    <div class="modal-body">
-      <div>
-        <label class="field-label">Tipe Catatan</label>
-        <div class="tag-select">
-          <span class="tag-opt tip selected" data-tag="tip">💡 Tips</span>
-          <span class="tag-opt challenge" data-tag="challenge">⚡ Tantangan</span>
-          <span class="tag-opt reflection" data-tag="reflection">🪞 Refleksi</span>
-          <span class="tag-opt general" data-tag="general">📌 Umum</span>
+<div class="modal-overlay-table-true" id="modalTableTrue">
+    <div class="table-card table-card-true">
+        <div class="table-head table-head-true">
+            <div class="table-title table-title-true">
+                Your Table 
+            </div>
+            <button class="modal-close-table-true" data-close="modalTableTrue">×</button>
         </div>
-      </div>
-      <div>
-        <label class="field-label">Judul Catatan *</label>
-        <input type="text" id="noteTitle" placeholder="Judul singkat catatan..." />
-      </div>
-      <div>
-        <label class="field-label">Isi Catatan *</label>
-        <textarea id="noteBody" style="min-height:120px" placeholder="Tulis catatanmu di sini..."></textarea>
-      </div>
-      <div id="linkedTaskField">
-        <label class="field-label">Hubungkan ke Task (opsional)</label>
-        <select id="linkedTask">
-          <option value="">— Pilih task —</option>
-        </select>
-      </div>
+
+        <div class="tbl-wrap tbl-wrap-true">
+            <div style="overflow-x:auto">
+                <table class="data-table data-table-true" id="dataTableTrue">
+                    <thead>
+                        <tr>
+                            <th data-col="name">Name</th>
+                            <th data-col="type" class="type-col">Type</th>
+                            <th data-col="time" class="time-col">Time Target</th>
+                            <th data-col="status">Done</th>
+                            <th data-col="note" class="more-col">More</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tblBodyAbsoluteTrue">
+                      <tr id="trTrue">
+                        <td>Belum ada</td>
+                      </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
-    <div class="modal-foot">
-      <button class="btn-cancel" data-close="modalNote">Batal</button>
-      <button class="btn-save" id="saveNote">Simpan Catatan</button>
-    </div>
-  </div>
 </div>
 
-<!-- ── MODAL: FAILED REASON ── -->
-<div class="modal-overlay" id="modalReason">
-  <div class="modal">
-    <div class="modal-head">
-      <h3>Task Tidak Selesai</h3>
-      <button class="modal-close" data-close="modalReason">×</button>
+<div class="modal-overlay-table-false" id="modalTableFalse">
+    <div class="table-card table-card-false">
+        <div class="table-head table-head-false">
+            <div class="table-title table-title-false">
+                Your Table 
+            </div>
+            <button class="modal-close-table-false" data-close="modalTableFalse">×</button>
+        </div>
+
+        <div class="tbl-wrap tbl-wrap-false">
+            <div style="overflow-x:auto">
+                <table class="data-table data-table-false" id="dataTableFalse">
+                    <thead>
+                        <tr>
+                            <th data-col="name">Name</th>
+                            <th data-col="type" class="type-col">Type</th>
+                            <th data-col="time" class="time-col">Time Target</th>
+                            <th data-col="status">Done</th>
+                            <th data-col="note" class="more-col">More</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tblBodyAbsoluteFalse">
+                      <tr id="trFalse"><td>Belum ada</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
-    <div class="modal-body">
-      <p class="reason-label">Task: <strong id="reasonTaskName">—</strong></p>
-      <div>
-        <label class="field-label">Kenapa tidak bisa diselesaikan?</label>
-        <textarea id="reasonText" style="min-height:100px" placeholder="Tulis alasannya agar bisa dijadikan pelajaran untuk besok..."></textarea>
-      </div>
-    </div>
-    <div class="modal-foot">
-      <button class="btn-cancel" data-close="modalReason">Lewati</button>
-      <button class="btn-save" id="saveReason">Simpan & Tandai</button>
-    </div>
-  </div>
 </div>
-
-<!-- ── MODAL: NOTE DETAIL ── -->
-<div class="modal-overlay" id="modalNoteDetail">
-  <div class="modal">
-    <div class="modal-head">
-      <h3 id="noteDetailTitle">Catatan</h3>
-      <button class="modal-close" data-close="modalNoteDetail">×</button>
-    </div>
-    <div class="modal-body">
-      <div class="note-detail-tag" id="noteDetailTag"></div>
-      <div class="note-detail-body" id="noteDetailBody"></div>
-      <p style="font-size:11px;color:var(--ink-mute);margin-top:10px" id="noteDetailMeta"></p>
-    </div>
-    <div class="modal-foot">
-      <button class="btn-cancel" data-close="modalNoteDetail">Tutup</button>
-      <button class="btn-save" id="deleteNote" style="background:var(--rose)">Hapus</button>
-    </div>
-  </div>
-</div>
-
-<div class="toast" id="toast"></div>
-
 <script defer src="script.js"></script>
 
 </body>

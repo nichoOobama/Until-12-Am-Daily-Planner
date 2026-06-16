@@ -71,11 +71,204 @@ const noteDetailTitle = document.getElementById('noteDetailTitle');
 const noteDetailTag = document.getElementById('noteDetailTag');
 const noteDetailBody = document.getElementById('noteDetailBody');
 const deleteNote = document.getElementById('deleteNote');
-
 // toast 
 const toast = document.getElementById('toast');
 
-//  FUNCTIONS
+document.addEventListener('DOMContentLoaded', () => {
+    // header
+    startRealTimeClock();
+
+    // greeting text 
+    greeting();
+
+    // stats
+    const statTasks = document.getElementById('statTasks');
+    const statDone = document.getElementById('statDone');
+    const statTotal = document.getElementById('statTotal');
+    const statRoutines = document.getElementById('statRoutines');
+
+    statTasks.textContent = filterTask().length;
+    statRoutines.textContent = filterRoutine().length;
+    statDone.textContent = filterDone().length > 0 ? +1 : 0;
+
+    if (filterTask().length > 0) {
+        TasklistIsEmpty.remove();
+    }
+
+    btnAddTask.onclick = () => {
+        modalOverlayTask.style.display = "flex";
+    }
+    modalCloseTask.onclick = () => {
+        modalOverlayTask.style.display = "none";
+    }
+
+    // create task
+    formTask.addEventListener('submit', (ev) => {
+        ev.preventDefault();
+        createTask();
+        modalOverlayTask.style.display = "none";
+        alert("YEY! Plan has been saved.");
+        document.location.reload();
+    });
+
+
+    if (filterRoutine().length > 0) {
+        routineListIsEmpty.remove();
+    }
+    btnAddRoutine.onclick = () => {
+        modalOverlayRoutine.style.display = "flex";
+    }
+    modalCloseRoutine.onclick = () => {
+        modalOverlayRoutine.style.display = "none";
+    }
+    // create routine
+    formRoutine.addEventListener('submit', (ev) => {
+        ev.preventDefault();
+        createRoutine();
+        modalOverlayTask.style.display = "none";
+        alert("YEY! Routine has been saved.");
+        document.location.reload();
+    });
+
+    // SEARCH
+
+    // TABLE
+    // identify screen size for responsive design table and loop data
+
+    const data = localStorage.getItem(storage_key);
+
+    if (unChecked().length === 0) {
+        tblBody.innerHTML += `
+        <tr><td colspan="6" class="tbl-empty">Belum ada data. Mulai tambahkan task, rutinitas, atau catatan!</td></tr>
+        `
+    } else {
+        const arrayData = unChecked();
+        const dataTerbaru = arrayData.slice(-5);
+        dataTerbaru.reverse().forEach(item => {
+            tblBody.innerHTML += `
+            <tr>
+                <td>${item.name}</td>
+                <td class="td">${item.type}</td>
+                <td class="td">${item.time_planed}</td>
+                <td><button onclick="wasCheckedOrUnChecked(${item.id})" class="btn-done"><p>${item.done}</p></button></td>
+                <td><button class="btn-more"><p>More</p></button></td>
+            </tr>
+            `
+        });
+    }
+
+    const tblBodyDone = document.getElementById('tblBodyDone');
+    if (filterIsDone().length === 0) {
+        tblBodyDone.innerHTML += `
+        <tr><td colspan="6" class="tbl-empty">Belum ada data. Mulai selesaikan!</td></tr>
+        `
+    } else {
+        const dataTerbaru = filterIsDone().slice(-5);
+        dataTerbaru.forEach(item => {
+            tblBodyDone.innerHTML += `
+            <tr>
+                <td>${item.name}</td>
+                <td class="td">${item.type}</td>
+                <td class="td">${item.time_planed}</td>
+                <td><button onclick="wasCheckedOrUnChecked(${item.id})" class="btn-done"><p>${item.done}</p></button></td>
+                <td><button class="btn-more"><p>More</p></button></td>
+            </tr>
+            `
+        });
+    }
+
+    const tblBodyAbsoluteTrue = document.getElementById('tblBodyAbsoluteTrue');
+    const tblBodyAbsoluteFalse = document.getElementById('tblBodyAbsoluteFalse');
+    const btnFilterAllOverview = document.getElementById('btnFilterAllOverview');
+    const btnFilterAllDone = document.getElementById('btnFilterAllDone');
+    const modalTableTrue = document.getElementById('modalTableTrue');
+    const modalTableFalse = document.getElementById('modalTableFalse');
+    const modalCloseTableTrue = document.querySelector('.modal-close-table-true');
+    const modalCloseTableFalse = document.querySelector('.modal-close-table-false');
+    const trTrue = document.getElementById('trTrue');
+    const trFalse = document.getElementById('trFalse');
+
+
+    btnFilterAllOverview.onclick = () => {
+        const filterUnChecked = unChecked();
+        if (filterUnChecked.length === 0) {
+            null
+        } else {
+        trFalse.style.display = 'none';
+        tblBodyAbsoluteFalse.innerHTML = '';
+        const dataTerbaru = filterUnChecked;
+        dataTerbaru.reverse().forEach(item => {
+            tblBodyAbsoluteFalse.innerHTML += `
+            <tr>
+                <td>${item.name}</td>
+                <td class="td">${item.type}</td>
+                <td class="td">${item.time_planed}</td>
+                <td><p>${item.done}</p></td>
+                <td><button class="btn-more"><p>More</p></button></td>
+            </tr>
+            `
+        });
+        }
+        modalTableFalse.style.display = "flex";
+    };
+
+    btnFilterAllDone.onclick = () => {
+        const filterDone = filterIsDone();
+        if (filterDone.length === 0) {
+            null
+        } else {
+        trTrue.style.display = 'none';
+        tblBodyAbsoluteTrue.innerHTML = '';
+        const dataTerbaru = filterDone;
+        dataTerbaru.reverse().forEach(item => {
+            tblBodyAbsoluteTrue.innerHTML += `
+            <tr>
+                <td>${item.name}</td>
+                <td class="td">${item.type}</td>
+                <td class="td">${item.time_planed}</td>
+                <td><p>${item.done}</p></td>
+                <td><button class="btn-more"><p>More</p></button></td>
+            </tr>
+            `
+            });
+        }
+        modalTableTrue.style.display = "flex";
+    }
+
+    modalCloseTableTrue.onclick = () => {
+        modalTableTrue.style.display = "none";
+    }
+    modalCloseTableFalse.onclick = () => {
+        modalTableFalse.style.display = "none";
+    }
+
+});
+
+// FOR TABLE
+function filterIsDone() {
+    const dataTask = localStorage.getItem(storage_key);
+    const arrayTask = dataTask ? JSON.parse(dataTask) : [];
+    const filterDone = arrayTask.filter(item => item.done === true);
+    return filterDone;
+}
+function unChecked () {
+    const data = localStorage.getItem(storage_key);
+    const dataArray = data ? JSON.parse(data) : [];
+    const filterName = dataArray.filter(item => item.done === false);
+    return filterName;
+}
+function wasCheckedOrUnChecked(id) {
+    const data = localStorage.getItem(storage_key);
+    const dataArray = data ? JSON.parse(data) : [];
+    const item = dataArray.find(item => item.id === id);
+    item.done = !item.done;
+    const parsed = JSON.stringify(dataArray);
+    localStorage.setItem( storage_key, parsed);
+    document.location.reload();
+}
+function removeItem() {
+    return null
+}
 
 // function for real time clock
 function startRealTimeClock() {
@@ -132,11 +325,12 @@ function greeting() {
 // function for task
 function createTask() {
     const newTask = {
+        id : generateId(),
         name: taskName.value,
         type: "task",
         time_planed: taskTime.value,
         note: taskNote.value,
-        done: false
+        done: false  
     }
     const ArrayTasks = localStorage.getItem(storage_key);
     const dataArray = ArrayTasks ? JSON.parse(ArrayTasks) : [];
@@ -148,6 +342,7 @@ function createTask() {
 // function for routine
 function createRoutine() {
     const newRoutine = {
+        id : generateId(),
         name: routineName.value,
         type: "routine",
         time_planed: routineTime.value,
@@ -157,53 +352,14 @@ function createRoutine() {
     const ArrayRoutine = localStorage.getItem(storage_key);
     const dataArray = ArrayRoutine ? JSON.parse(ArrayRoutine) : [];
     dataArray.push(newRoutine);
-    console.log(dataArray);
     const parsed = JSON.stringify(dataArray);
-    console.log(parsed);
     localStorage.setItem( storage_key, parsed);
 }
 
-// header
-startRealTimeClock();
-
-// greeting text 
-greeting();
-
-// stats
-const statTasks = document.getElementById('statTasks');
-const statDone = document.getElementById('statDone');
-const statTotal = document.getElementById('statTotal');
-const statRoutines = document.getElementById('statRoutines');
-
-statTasks.textContent = filterTask().length;
-statRoutines.textContent = filterRoutine().length;
-
-// column tasks | modal
-function filterTask() {
-    const dataTask = localStorage.getItem(storage_key);
-    const arrayTask = dataTask ? JSON.parse(dataTask) : [];
-    const filterTask = arrayTask.filter(item => item.type === "task");
-    return filterTask;
+// generate id
+function generateId() {
+    return +new Date()
 }
-if (filterTask().length > 0) {
-    TasklistIsEmpty.remove();
-}
-
-btnAddTask.onclick = () => {
-    modalOverlayTask.style.display = "flex";
-}
-modalCloseTask.onclick = () => {
-    modalOverlayTask.style.display = "none";
-}
-
-// create task
-formTask.addEventListener('submit', (ev) => {
-    ev.preventDefault();
-    createTask();
-    modalOverlayTask.style.display = "none";
-    alert("YEY! Plan has been saved.");
-    document.location.reload();
-});
 
 // column routines | modal
 function filterRoutine() {
@@ -212,48 +368,20 @@ function filterRoutine() {
     const filterRoutine = arrayRoutine.filter(item => item.type === "routine");
     return filterRoutine;
 }
-if (filterRoutine().length > 0) {
-    routineListIsEmpty.remove();
-}
-btnAddRoutine.onclick = () => {
-    modalOverlayRoutine.style.display = "flex";
-}
-modalCloseRoutine.onclick = () => {
-    modalOverlayRoutine.style.display = "none";
-}
-// create routine
-formRoutine.addEventListener('submit', (ev) => {
-    ev.preventDefault();
-    createRoutine();
-    modalOverlayTask.style.display = "none";
-    document.location.reload();
-});
 
-// SEARCH
-
-// TABLE
-
-// identify screen size for responsive design table and loop data
-
-const data = localStorage.getItem(storage_key);
-
-if (data === null) {
-    tblBody.innerHTML += `
-    <tr><td colspan="6" class="tbl-empty">Belum ada data. Mulai tambahkan task, rutinitas, atau catatan!</td></tr>
-    `
-} else {
-    const arrayData = JSON.parse(data);
-    const dataTerbaru = arrayData.slice(-5);
-    dataTerbaru.forEach(item => {
-        tblBody.innerHTML += `
-        <tr>
-            <td>${item.name}</td>
-            <td class="td">${item.type}</td>
-            <td class="td">${item.time_planed}</td>
-            <td>${item.done}</td>
-            <td><button class="btn-more">More</button></td>
-        </tr>
-        `
-    });
+// column tasks | modal
+function filterTask() {
+    const dataTask = localStorage.getItem(storage_key);
+    const arrayTask = dataTask ? JSON.parse(dataTask) : [];
+    const filterTask = arrayTask.filter(item => item.type === "task");
+    return filterTask;
 }
 
+function filterDone() {
+    const dataTask = localStorage.getItem(storage_key);
+    const arrayTask = dataTask ? JSON.parse(dataTask) : [];
+    const filterTask = arrayTask.filter(item => item.type === "task");
+    const filterDone = filterTask.filter(item => item.done === true);
+    return filterDone;
+    
+}
