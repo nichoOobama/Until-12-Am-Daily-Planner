@@ -32,7 +32,7 @@
   <!-- Stats -->
   <div class="stats-row">
     <div class="stat-card amber">
-      <div class="stat-label">Tasks</div>
+      <div class="stat-label">Plan</div>
       <div class="stat-value" id="statTasks">0</div>
       <div class="stat-sub">Planned</div>
     </div>
@@ -44,7 +44,7 @@
     <div class="stat-card rose">
       <div class="stat-label">Routines</div>
       <div class="stat-value" id="statRoutines">0</div>
-      <div class="stat-sub">built <span>0</span> than <span>0</span> Routines</div>
+      <div class="stat-sub">Planned</div>
     </div>
   </div>
 
@@ -243,9 +243,9 @@
                         </tr>
                     </thead>
                     <tbody id="tblBodyAbsoluteTrue">
-                      <tr id="trTrue">
-                        <td>Belum ada</td>
-                      </tr>
+                     <tr id="trTrue">
+                      <td>Belum ada data</td>
+                     </tr>
                     </tbody>
                 </table>
             </div>
@@ -275,12 +275,40 @@
                         </tr>
                     </thead>
                     <tbody id="tblBodyAbsoluteFalse">
-                      <tr id="trFalse"><td>Belum ada</td></tr>
+                      <tr id="trFalse"><td>Belum ada data</td></tr>
                     </tbody>
                 </table>
             </div>
         </div>
     </div>
+</div>
+
+<div class="modal-overlay-more">
+<div class="more-card">
+  <div class="more-card-head">
+    <div class="more-card-title">
+        Detail Item 
+    </div>
+    <button class="modal-close-more" data-close="modalMoreCard">×</button>
+  </div>
+  <div class="more-card-body">
+    <div class="more-card-item">
+      <div class="more-card-item-label">Name</div>
+      <div class="more-card-item-value" id="moreCardName"></div>
+    </div>
+    <div class="more-card-item">
+      <div class="more-card-item-label">Type</div>
+      <div class="more-card-item-value" id="moreCardType"></div>
+    </div>
+    <div class="more-card-item">
+      <div class="more-card-item-label">Time Target</div>
+      <div class="more-card-item-value" id="moreCardTime"></div>
+    </div>
+    <div class="more-card-item">
+      <div class="more-card-item-label">Note</div>
+      <div class="more-card-item-value" id="moreCardNote"></div>
+    </div>
+  </div>
 </div>
 <script defer src="script.js"></script>
 

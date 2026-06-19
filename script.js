@@ -82,6 +82,8 @@ document.addEventListener('DOMContentLoaded', () => {
     greeting();
 
     // stats
+    const allData = localStorage.getItem(storage_key);
+    const dataArray = allData ? JSON.parse(allData) : [];
     const statTasks = document.getElementById('statTasks');
     const statDone = document.getElementById('statDone');
     const statTotal = document.getElementById('statTotal');
@@ -89,8 +91,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     statTasks.textContent = filterTask().length;
     statRoutines.textContent = filterRoutine().length;
-    statDone.textContent = filterDone().length > 0 ? +1 : 0;
-
+    statDone.textContent = filterIsDone().length
+    statTotal.textContent = dataArray.length;
     if (filterTask().length > 0) {
         TasklistIsEmpty.remove();
     }
@@ -136,6 +138,19 @@ document.addEventListener('DOMContentLoaded', () => {
     // identify screen size for responsive design table and loop data
 
     const data = localStorage.getItem(storage_key);
+    const modalOverlayMore = document.querySelector('.modal-overlay-more');
+    const modalCloseMore = document.querySelector('.modal-close-more');
+    const tblBodyAbsoluteTrue = document.getElementById('tblBodyAbsoluteTrue');
+    const tblBodyAbsoluteFalse = document.getElementById('tblBodyAbsoluteFalse');
+    const btnFilterAllOverview = document.getElementById('btnFilterAllOverview');
+    const btnFilterAllDone = document.getElementById('btnFilterAllDone');
+    const modalTableTrue = document.getElementById('modalTableTrue');
+    const modalTableFalse = document.getElementById('modalTableFalse');
+    const modalCloseTableTrue = document.querySelector('.modal-close-table-true');
+    const modalCloseTableFalse = document.querySelector('.modal-close-table-false');
+    const trTrue = document.getElementById('trTrue');
+    const trFalse = document.getElementById('trFalse');
+
 
     if (unChecked().length === 0) {
         tblBody.innerHTML += `
@@ -176,18 +191,6 @@ document.addEventListener('DOMContentLoaded', () => {
             `
         });
     }
-
-    const tblBodyAbsoluteTrue = document.getElementById('tblBodyAbsoluteTrue');
-    const tblBodyAbsoluteFalse = document.getElementById('tblBodyAbsoluteFalse');
-    const btnFilterAllOverview = document.getElementById('btnFilterAllOverview');
-    const btnFilterAllDone = document.getElementById('btnFilterAllDone');
-    const modalTableTrue = document.getElementById('modalTableTrue');
-    const modalTableFalse = document.getElementById('modalTableFalse');
-    const modalCloseTableTrue = document.querySelector('.modal-close-table-true');
-    const modalCloseTableFalse = document.querySelector('.modal-close-table-false');
-    const trTrue = document.getElementById('trTrue');
-    const trFalse = document.getElementById('trFalse');
-
 
     btnFilterAllOverview.onclick = () => {
         const filterUnChecked = unChecked();
@@ -241,6 +244,22 @@ document.addEventListener('DOMContentLoaded', () => {
     modalCloseTableFalse.onclick = () => {
         modalTableFalse.style.display = "none";
     }
+
+const btnMore = document.querySelectorAll('.btn-more');
+    // untuk deteksi apakah tombol more di klik
+btnMore.forEach(button => {
+    button.addEventListener
+})
+    // PASANG EVENT DELEGATION DI UNTUK TABEL
+document.addEventListener('click', (ev) => {
+    if(ev.target.classList.contains('.btn-more')) {
+        modalOverlayMore.style.display = "flex";
+    }
+});
+//Fungsi untuk menutup modal More
+modalCloseMore.onclick = () => {
+    modalOverlayMore.style.display = "none";
+}
 
 });
 
@@ -327,7 +346,7 @@ function createTask() {
     const newTask = {
         id : generateId(),
         name: taskName.value,
-        type: "task",
+        type: "plan",
         time_planed: taskTime.value,
         note: taskNote.value,
         done: false  

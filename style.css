@@ -632,6 +632,16 @@
   flex-wrap: wrap;           /* ✅ tombol pagination tidak overflow */
 }
 
+/* MODAL OVERLAY MORE */
+.modal-overlay-more {position:fixed; inset:0;background:rgba(26,24,20,0.45);z-index:300;display:none;align-items:center;justify-content:center;padding:16px;}
+.more-card {width: 100%; max-width: 400px; background: var(--paper); border-radius: 10px; overflow: hidden; font-size: 13px;box-shadow: 0 4px 12px rgba(26,24,20,0.1);animation: modalUp 0.3s forwards;}
+.more-card-head {padding: 16px 20px; border-bottom: 1px solid var(--border-soft); display: flex; align-items: center; justify-content: space-between;}
+.more-card-title { font-weight: 500; color: var(--ink); }
+.more-card-body { padding: 16px 20px; }
+.more-card-item { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
+.more-card-item-label { color: var(--ink); font-weight: 500; min-width: 80px; }
+.more-card-item-value { flex: 1; word-break: break-all; }
+
   /* ── MODAL ── */
   .modal-overlay-task {
     position: fixed; inset: 0;
@@ -692,42 +702,9 @@
     justify-content: space-between;
   }
   .modal-head h3 { font-family: 'Lora', serif; font-size: 18px; font-weight: 600; }
-  .modal-close-task {
-    width: 30px; height: 30px;
-    border-radius: 50%;
-    border: 1px solid var(--border);
-    background: none;
-    cursor: pointer;
-    display: flex; align-items: center; justify-content: center;
-    color: var(--ink-soft);
-    font-size: 16px;
-    line-height: 1;
-    transition: all 0.15s;
-  }
-  .modal-close-routine {
-    width: 30px; height: 30px;
-    border-radius: 50%;
-    border: 1px solid var(--border);
-    background: none;
-    cursor: pointer;
-    display: flex; align-items: center; justify-content: center;
-    color: var(--ink-soft);
-    font-size: 16px;
-    line-height: 1;
-    transition: all 0.15s;
-  }
-  .modal-close-table-true {
-    width: 30px; height: 30px;
-    border-radius: 50%;
-    border: 1px solid var(--border);
-    background: none;
-    cursor: pointer;
-    display: flex; align-items: center; justify-content: center;
-    color: var(--ink-soft);
-    font-size: 16px;
-    line-height: 1;
-    transition: all 0.15s;
-  }
+  .modal-close-task,
+  .modal-close-routine,
+  .modal-close-table-true,
   .modal-close-table-false {
     width: 30px; height: 30px;
     border-radius: 50%;
