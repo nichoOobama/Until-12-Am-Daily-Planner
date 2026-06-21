@@ -119,6 +119,7 @@
             <th data-col="time" class="time-col">Time Target</th>
             <th data-col="status">Done</th>
             <th data-col="note" class="more-col">More</th>
+            <th data-col="aksi">Action</th>
             </tr>
         </thead>
         <tbody id="tblBody">
@@ -154,6 +155,7 @@
             <th data-col="time" class="time-col">Time Target</th>
             <th data-col="status">Done</th>
             <th data-col="note" class="more-col">More</th>
+            <th data-col="aksi">Action</th>
             </tr>
         </thead>
         <tbody id="tblBodyDone">
@@ -177,11 +179,11 @@
         <input Required type="text" id="taskName" placeholder="Your plan name" />
       </div>
       <div>
-        <label class="field-label">Jam Rencana (opsional)</label>
+        <label class="field-label">Time are plane</label>
         <input Required type="time" id="taskTime" />
       </div>
       <div>
-        <label class="field-label">Catatan awal (tips/tantangan yang diantisipasi)</label>
+        <label class="field-label">First Tip (tips/tantangan yang diantisipasi)</label>
         <textarea Required id="taskNote" placeholder="Tulis hal yang perlu dipersiapkan atau tantangan yang mungkin dihadapi..."></textarea>
       </div>
     </div>
@@ -197,20 +199,20 @@
   <div class="modal">
     <form action="#" id="routineForm">
     <div class="modal-head">
-      <h3>Tambah Rutinitas</h3>
+      <h3>Create Rutinitas</h3>
       <button class="modal-close-routine" data-close="modalRoutine">×</button>
     </div>
     <div class="modal-body">
       <div>
-        <label class="field-label">Nama Rutinitas *</label>
+        <label class="field-label">Name Routines *</label>
         <input Required type="text" id="routineName" placeholder="Contoh: Olahraga pagi 20 menit" />
       </div>
       <div>
-        <label class="field-label">Jam Pelaksanaan (opsional)</label>
+        <label class="field-label">Time are plane</label>
         <input Required type="time" id="routineTime" />
       </div>
       <div>
-        <label class="field-label">Catatan / Tips Menjalankan</label>
+        <label class="field-label">Note</label>
         <textarea Required id="routineNote" placeholder="Tips agar rutinitas ini berjalan lancar..."></textarea>
       </div>
     </div>
@@ -240,6 +242,7 @@
                             <th data-col="time" class="time-col">Time Target</th>
                             <th data-col="status">Done</th>
                             <th data-col="note" class="more-col">More</th>
+                            <th data-col="aksi">Action</th>
                         </tr>
                     </thead>
                     <tbody id="tblBodyAbsoluteTrue">
@@ -272,6 +275,7 @@
                             <th data-col="time" class="time-col">Time Target</th>
                             <th data-col="status">Done</th>
                             <th data-col="note" class="more-col">More</th>
+                            <th data-col="aksi">Action</th>
                         </tr>
                     </thead>
                     <tbody id="tblBodyAbsoluteFalse">

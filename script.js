@@ -167,9 +167,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 <td class="td">${item.time_planed}</td>
                 <td><button onclick="wasCheckedOrUnChecked(${item.id})" class="btn-done"><p>${item.done}</p></button></td>
                 <td>
-                <button onclick="openModalMore(${item.id})" class="btn-more"><p>More</p></button> 
-                <button onclick="if (confirm('Are you sure?')) removeData(${item.id})" class="btn-remove"><p>Delete</p></button> 
-                </td>
+                <button onclick="openModalMore(${item.id})" class="btn-more"><p>More</p></button> </td>
+                <td><button onclick="if (confirm('Are you sure?')) removeData(${item.id})" class="btn-remove"><p>Delete</p></button></td> 
+                
             </tr>
             `
         });
@@ -190,9 +190,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 <td class="td">${item.time_planed}</td>
                 <td><button onclick="wasCheckedOrUnChecked(${item.id})" class="btn-done"><p>${item.done}</p></button></td>
                 <td>
-                <button onclick="openModalMore(${item.id})" class="btn-more"><p>More</p></button>
-                <button onclick="if (confirm('Are you sure?')) removeData(${item.id})" class="btn-remove"><p>Delete</p></button> 
-                </td>
+                <button onclick="openModalMore(${item.id})" class="btn-more"><p>More</p></button></td>
+                <td><button onclick="if (confirm('Are you sure?')) removeData(${item.id})" class="btn-remove"><p>Delete</p></button></td> 
+                
             </tr>
             `
         });
@@ -214,9 +214,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 <td class="td">${item.time_planed}</td>
                 <td><p>${item.done}</p></td>
                 <td>
-                <button onclick="openModalMore(${item.id})" class="btn-more"><p>More</p></button>
-                <button onclick="if (confirm('Are you sure?')) removeData(${item.id})" class="btn-remove"><p>Delete</p></button> 
-                </td>
+                <button onclick="openModalMore(${item.id})" class="btn-more"><p>More</p></button></td>
+                <td><button onclick="if (confirm('Are you sure?')) removeData(${item.id})" class="btn-remove"><p>Delete</p></button></td> 
+                
             </tr>
             `
         });
@@ -239,9 +239,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 <td class="td">${item.type}</td>
                 <td class="td">${item.time_planed}</td>
                 <td><p>${item.done}</p></td>
-                <td><button onclick="openModalMore(${item.id})" confirm class="btn-more"><p>More</p></button>
-                <button onclick="if (confirm('Are you sure?')) removeData(${item.id})" class="btn-remove"><p>Delete</p></button> 
-                </td>
+                <td><button onclick="openModalMore(${item.id})" confirm class="btn-more"><p>More</p></button></td>
+                <td><button onclick="if (confirm('Are you sure?')) removeData(${item.id})" class="btn-remove"><p>Delete</p></button></td> 
+                
             </tr>
             `
             });
