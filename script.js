@@ -166,7 +166,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 <td class="td">${item.type}</td>
                 <td class="td">${item.time_planed}</td>
                 <td><button onclick="wasCheckedOrUnChecked(${item.id})" class="btn-done"><p>${item.done}</p></button></td>
-                <td><button class="btn-more"><p>More</p></button></td>
+                <td>
+                <button onclick="openModalMore(${item.id})" class="btn-more"><p>More</p></button> 
+                <button onclick="if (confirm('Are you sure?')) removeData(${item.id})" class="btn-remove"><p>Delete</p></button> 
+                </td>
             </tr>
             `
         });
@@ -186,7 +189,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 <td class="td">${item.type}</td>
                 <td class="td">${item.time_planed}</td>
                 <td><button onclick="wasCheckedOrUnChecked(${item.id})" class="btn-done"><p>${item.done}</p></button></td>
-                <td><button class="btn-more"><p>More</p></button></td>
+                <td>
+                <button onclick="openModalMore(${item.id})" class="btn-more"><p>More</p></button>
+                <button onclick="if (confirm('Are you sure?')) removeData(${item.id})" class="btn-remove"><p>Delete</p></button> 
+                </td>
             </tr>
             `
         });
@@ -207,7 +213,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 <td class="td">${item.type}</td>
                 <td class="td">${item.time_planed}</td>
                 <td><p>${item.done}</p></td>
-                <td><button class="btn-more"><p>More</p></button></td>
+                <td>
+                <button onclick="openModalMore(${item.id})" class="btn-more"><p>More</p></button>
+                <button onclick="if (confirm('Are you sure?')) removeData(${item.id})" class="btn-remove"><p>Delete</p></button> 
+                </td>
             </tr>
             `
         });
@@ -230,7 +239,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 <td class="td">${item.type}</td>
                 <td class="td">${item.time_planed}</td>
                 <td><p>${item.done}</p></td>
-                <td><button class="btn-more"><p>More</p></button></td>
+                <td><button onclick="openModalMore(${item.id})" confirm class="btn-more"><p>More</p></button>
+                <button onclick="if (confirm('Are you sure?')) removeData(${item.id})" class="btn-remove"><p>Delete</p></button> 
+                </td>
             </tr>
             `
             });
@@ -245,23 +256,44 @@ document.addEventListener('DOMContentLoaded', () => {
         modalTableFalse.style.display = "none";
     }
 
-const btnMore = document.querySelectorAll('.btn-more');
-    // untuk deteksi apakah tombol more di klik
-btnMore.forEach(button => {
-    button.addEventListener
-})
-    // PASANG EVENT DELEGATION DI UNTUK TABEL
-document.addEventListener('click', (ev) => {
-    if(ev.target.classList.contains('.btn-more')) {
-        modalOverlayMore.style.display = "flex";
+    modalCloseMore.onclick = () => {
+        modalOverlayMore.style.display = "none";
     }
-});
-//Fungsi untuk menutup modal More
-modalCloseMore.onclick = () => {
-    modalOverlayMore.style.display = "none";
-}
 
 });
+
+// for remove data from local storage
+function removeData(id) {
+    const data = localStorage.getItem(storage_key);
+    const arrayData = JSON.parse(data);
+    const filterData = arrayData.filter(item => item.id !== id);
+    const parsed = JSON.stringify(filterData);
+    localStorage.setItem(storage_key, parsed);
+    document.location.reload();
+}
+
+// for button more
+function openModalMore(id) {
+    const modalOverlayMore = document.querySelector('.modal-overlay-more');
+    const moreCardName = document.getElementById('moreCardName');
+    const moreCardType = document.getElementById('moreCardType');
+    const moreCardTime = document.getElementById('moreCardTime');
+    const moreCardNote = document.getElementById('moreCardNote');
+
+    const data = localStorage.getItem(storage_key);
+    const arrayData = JSON.parse(data);
+    const filterData = arrayData.find(item => item.id === id);
+    if (!filterData) {
+        return null
+    }
+
+    modalOverlayMore.style.display = "flex";
+    moreCardName.innerText = filterData.name;
+    moreCardType.innerText = filterData.type;
+    moreCardTime.innerText = filterData.time_planed;
+    moreCardNote.innerText = filterData.note;
+
+}
 
 // FOR TABLE
 function filterIsDone() {
@@ -392,14 +424,14 @@ function filterRoutine() {
 function filterTask() {
     const dataTask = localStorage.getItem(storage_key);
     const arrayTask = dataTask ? JSON.parse(dataTask) : [];
-    const filterTask = arrayTask.filter(item => item.type === "task");
+    const filterTask = arrayTask.filter(item => item.type === "plan");
     return filterTask;
 }
 
 function filterDone() {
     const dataTask = localStorage.getItem(storage_key);
     const arrayTask = dataTask ? JSON.parse(dataTask) : [];
-    const filterTask = arrayTask.filter(item => item.type === "task");
+    const filterTask = arrayTask.filter(item => item.type === "plan");
     const filterDone = filterTask.filter(item => item.done === true);
     return filterDone;
     
